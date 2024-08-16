@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:note/feature/home_screen/views/widgets/custom_add_button.dart';
 import 'package:note/feature/home_screen/views/widgets/custom_app_bar.dart';
 import 'package:note/feature/home_screen/views/widgets/custom_calender.dart';
+import 'package:note/feature/home_screen/views/widgets/custom_list_notes.dart';
 
 
 class HomeScreen extends StatelessWidget {
@@ -23,6 +24,7 @@ class HomeScreen extends StatelessWidget {
               const SizedBox(
                 height: 16,
               ),
+              const CustomListNotes()
 
             ],
           ),
