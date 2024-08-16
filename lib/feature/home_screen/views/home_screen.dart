@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:note/feature/home_screen/views/widgets/custom_add_button.dart';
 import 'package:note/feature/home_screen/views/widgets/custom_app_bar.dart';
 import 'package:note/feature/home_screen/views/widgets/custom_calender.dart';
 
-import '../../../core/app_styles.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -12,7 +12,7 @@ class HomeScreen extends StatelessWidget {
     return   SafeArea(
       child: Scaffold(
         body: Padding(
-          padding: EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
               const CustomAppBar(),
@@ -26,7 +26,8 @@ class HomeScreen extends StatelessWidget {
 
             ],
           ),
-        )
+        ),
+        floatingActionButton: const CustomAddButton()
         ,),
     );
   }
