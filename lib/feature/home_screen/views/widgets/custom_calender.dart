@@ -1,18 +1,15 @@
 import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:note/core/app_styles.dart';
+import 'package:note/feature/home_screen/manager/provider_note.dart';
+import 'package:provider/provider.dart';
 
-class CustomCalender extends StatefulWidget {
+class CustomCalender extends StatelessWidget {
     const CustomCalender({super.key});
 
   @override
-  State<CustomCalender> createState() => _CustomCalenderState();
-}
-
-class _CustomCalenderState extends State<CustomCalender> {
-   DateTime time = DateTime.now();
-  @override
   Widget build(BuildContext context) {
+    var provider= Provider.of<ProviderNote>(context);
     return EasyInfiniteDateTimeLine(
       dayProps: EasyDayProps(
           borderColor: const Color(0x777C7C7C),
@@ -33,12 +30,11 @@ class _CustomCalenderState extends State<CustomCalender> {
       showTimelineHeader: false,
       activeColor: Colors.black,
       firstDate: DateTime.now().subtract(const Duration(days: 365)),
-      focusDate: time,
+      focusDate: provider.time,
       lastDate: DateTime.now().add(const Duration(days: 365)),
       onDateChange: (selectedDate) {
-      time =  selectedDate;
-      setState(() {
-      });
+      provider.selectedTime(selectedDate);
+      provider.filter();
       },
     );
   }

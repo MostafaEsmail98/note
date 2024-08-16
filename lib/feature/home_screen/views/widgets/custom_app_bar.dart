@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:note/feature/home_screen/manager/provider_note.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../core/app_styles.dart';
 
@@ -7,6 +9,7 @@ class CustomAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var provider =  Provider.of<ProviderNote>(context);
     return   Row(
       children: [
         Container(
@@ -22,6 +25,7 @@ class CustomAppBar extends StatelessWidget {
         const Spacer(),
         IconButton(
           onPressed: () {
+            provider.deleteAll();
           },
           icon:const Icon(Icons.delete, size: 35,),
 

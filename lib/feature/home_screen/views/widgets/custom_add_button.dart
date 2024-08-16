@@ -1,22 +1,25 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:note/feature/home_screen/data/models/note_model.dart';
+import 'package:note/feature/home_screen/manager/provider_note.dart';
 import 'package:note/feature/home_screen/views/widgets/text_feild_of_add.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../core/app_styles.dart';
 
-class CustomAddButton extends StatefulWidget {
-  const CustomAddButton({super.key});
+class CustomAddButton extends StatelessWidget {
+   CustomAddButton({super.key});
 
-  @override
-  State<CustomAddButton> createState() => _CustomAddButtonState();
-}
-
-class _CustomAddButtonState extends State<CustomAddButton> {
   TextEditingController titleController = TextEditingController();
+
   TextEditingController descriptionController = TextEditingController();
+
   DateTime selectedDate = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
+    var provider = Provider.of<ProviderNote>(context);
     return FloatingActionButton(
       onPressed: () {
         AlertDialog alert = AlertDialog(
@@ -28,8 +31,9 @@ class _CustomAddButtonState extends State<CustomAddButton> {
             mainAxisSize: MainAxisSize.min,
             children: [
               TextFieldOfAdd(controller: titleController, text: "Title"),
-              const SizedBox(height: 8,width: double.maxFinite,),
-              TextFieldOfAdd(controller: descriptionController, text: "Description"),
+              const SizedBox(height: 8, width: double.maxFinite,),
+              TextFieldOfAdd(
+                  controller: descriptionController, text: "Description"),
               TextButton(
                   onPressed: () {
                     _selectDate(context);
@@ -40,7 +44,19 @@ class _CustomAddButtonState extends State<CustomAddButton> {
           actions: [
             TextButton(
               onPressed: () {
-                Navigator.pop(context);
+                print(selectedDate);
+                if (titleController.text.isNotEmpty &&
+                    descriptionController.text.isNotEmpty) {
+                  provider.add(NoteModel(
+                      randomInt: Random().nextInt(10),
+                      title: titleController.text,
+                      description: descriptionController.text,
+                      time: selectedDate));
+                  titleController.text="";
+                  descriptionController.text="";
+                  Navigator.pop(context);
+                  provider.filter();
+                }
               },
               child: const Text("OK"),
             )
@@ -68,8 +84,7 @@ class _CustomAddButtonState extends State<CustomAddButton> {
         firstDate: DateTime.now().subtract(const Duration(days: 0)),
         lastDate: DateTime.now().add(const Duration(days: 365)));
     if (picked != null && picked != selectedDate) {
-      setState(() {
-      });selectedDate = picked;
+      selectedDate = picked;
     }
   }
 }
