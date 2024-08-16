@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:note/core/app_styles.dart';
 
 class CustomCalender extends StatefulWidget {
-    CustomCalender({super.key});
+    const CustomCalender({super.key});
 
   @override
   State<CustomCalender> createState() => _CustomCalenderState();

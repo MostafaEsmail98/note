@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:note/feature/home_screen/views/widgets/custom_edit_and_delete_button.dart';
+import 'package:note/feature/home_screen/views/widgets/custom_one_item.dart';
 
-import '../../../../core/app_styles.dart';
+
 
 class CustomListNotes extends StatelessWidget {
   const CustomListNotes({super.key});
@@ -12,23 +14,9 @@ class CustomListNotes extends StatelessWidget {
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) {
-      return Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Container(
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: const Color(0x777C7C7C))),
-          child: const ListTile(
-            title: Text(
-            "  MyProvider.titles[index]",
-              style: AppStyles.styleBold24,
-            ),
-            subtitle: Text(
-             " MyProvider.description[index]",
-              overflow: TextOverflow.ellipsis,
-            ),
-          )
-        ),
+      return const Padding(
+        padding: EdgeInsets.all(8.0),
+        child: CustomEditAndDeleteButton(widget: CustomOneItem())
       );
     },);
   }
