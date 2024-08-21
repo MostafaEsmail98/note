@@ -20,7 +20,7 @@ class CustomEditAndDeleteButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var provider = Provider.of<ProviderNote>(context);
-    DateTime selected = provider.notes[index].time;
+    DateTime selected = DateTime.parse(provider.notes[index].time);
     Future<void> selectDate(
         BuildContext context, DateTime time, int index) async {
       final DateTime? picked = await showDatePicker(
@@ -34,18 +34,6 @@ class CustomEditAndDeleteButton extends StatelessWidget {
     }
 
     return Slidable(
-        endActionPane: ActionPane(motion: const ScrollMotion(), children: [
-          SlidableAction(
-            borderRadius: const BorderRadius.all(Radius.circular(12)),
-            onPressed: (context) {
-              provider.isDone(index);
-            },
-            backgroundColor: Colors.lightGreen,
-            foregroundColor: Colors.white,
-            icon: Icons.done,
-            label: 'Done',
-          ),
-        ]),
         startActionPane: ActionPane(
           motion: const ScrollMotion(),
           children: [
@@ -85,7 +73,7 @@ class CustomEditAndDeleteButton extends StatelessWidget {
                       TextButton(
                           onPressed: () {
                             selectDate(
-                                context, provider.notes[index].time, index);
+                                context, DateTime.parse(provider.notes[index].time), index);
                           },
                           child: const Text("Select Date")),
                     ],
@@ -99,13 +87,11 @@ class CustomEditAndDeleteButton extends StatelessWidget {
                               NoteModel(
                                   title: titleController.text,
                                   description: descriptionController.text,
-                                  time: selected),
+                                  time: selected.toString()),
                               index);
-
                           titleController.text = "";
                           descriptionController.text = "";
                           Navigator.pop(context);
-                          provider.filter();
                         }
                       },
                       child: const Text("OK"),
@@ -118,8 +104,8 @@ class CustomEditAndDeleteButton extends StatelessWidget {
                     return alert;
                   },
                 );
-                titleController.text = provider.notes[index].title;
-                descriptionController.text = provider.notes[index].description;
+                titleController.text = provider.notesFilter[index].title;
+                descriptionController.text = provider.notesFilter[index].description;
               },
               backgroundColor: const Color(0xFF21B7CA),
               foregroundColor: Colors.white,

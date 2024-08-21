@@ -1,27 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:note/core/helper_hive.dart';
 import '../data/models/note_model.dart';
 
 class ProviderNote extends ChangeNotifier {
   List<NoteModel> notes = [];
   List<NoteModel> notesFilter = [];
   DateTime time = DateTime.now();
+  HelperHive helperHive = HelperHive();
 
   void add(NoteModel note) {
     notes.add(note);
+    helperHive.add(note);
     notifyListeners();
-  }
-
-  void isDone(int index) {
-    for (int i = 0; i < notes.length; i++) {
-      if (notes[i].randomInt == notesFilter[index].randomInt) {
-        notes[i].isDone = true;
-        filter();
-      }
-    }
   }
 
   void deleteAll() {
     notes.clear();
+    helperHive.deleteAll();
     filter();
     notifyListeners();
   }
@@ -30,6 +26,7 @@ class ProviderNote extends ChangeNotifier {
     for (int i = 0; i <= notes.length; i++) {
       if (notes[i].randomInt == notesFilter[index].randomInt) {
         notes.removeAt(i);
+        helperHive.deleteOne(i);
         filter();
       }
     }
@@ -37,7 +34,16 @@ class ProviderNote extends ChangeNotifier {
   }
 
   void edit(NoteModel note, int index) {
-    notes[index] = note;
+    for (int i = 0; i <= notes.length; i++) {
+      if (notes[i].randomInt == notesFilter[index].randomInt) {
+        notes.removeAt(i);
+        helperHive.deleteOne(i);
+        filter();
+      }
+    }
+    notes.add(note);
+    helperHive.add(note);
+    filter();
     notifyListeners();
   }
 
@@ -54,6 +60,13 @@ class ProviderNote extends ChangeNotifier {
         notesFilter.add(notes[i]);
       }
     }
+    notifyListeners();
+  }
+
+   void get (){
+    var notesBox = Hive.box<NoteModel>(HelperHive.noteBox);
+    notes = notesBox.values.toList();
+    filter();
     notifyListeners();
   }
 }

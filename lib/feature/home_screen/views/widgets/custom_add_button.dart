@@ -8,9 +8,14 @@ import 'package:provider/provider.dart';
 
 import '../../../../core/app_styles.dart';
 
-class CustomAddButton extends StatelessWidget {
-   CustomAddButton({super.key});
+class CustomAddButton extends StatefulWidget {
+   const CustomAddButton({super.key});
 
+  @override
+  State<CustomAddButton> createState() => _CustomAddButtonState();
+}
+
+class _CustomAddButtonState extends State<CustomAddButton> {
   TextEditingController titleController = TextEditingController();
 
   TextEditingController descriptionController = TextEditingController();
@@ -44,14 +49,13 @@ class CustomAddButton extends StatelessWidget {
           actions: [
             TextButton(
               onPressed: () {
-                print(selectedDate);
                 if (titleController.text.isNotEmpty &&
                     descriptionController.text.isNotEmpty) {
                   provider.add(NoteModel(
-                      randomInt: Random().nextInt(10),
+                      randomInt: Random().nextDouble(),
                       title: titleController.text,
                       description: descriptionController.text,
-                      time: selectedDate));
+                      time: selectedDate.toString()));
                   titleController.text="";
                   descriptionController.text="";
                   Navigator.pop(context);
